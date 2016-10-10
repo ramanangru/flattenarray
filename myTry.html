@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<script type="text/javascript">
+			//var inputArray = {{1,2,{3}},4};
+			
+			var tempAr = new Array();
+			
+			var getSimpleAr = function(inpAr){
+				//console.log(inpAr.length);
+				for(var xx=0;xx<inpAr.length;xx++){
+					if(inpAr[xx] instanceof Array){
+						var tempElm = inpAr[xx];
+						var tempObj = getSimpleAr(tempElm);
+					}else{
+						tempAr.push(inpAr[xx]);
+					}
+				}
+				return tempAr;
+			};
+
+			var flatInput = function(){
+				var inputArray = "";
+				try{
+					inputArray = eval(document.getElementById("inputVal").value);
+				}catch(e){
+					console.log(e);
+				}
+				
+				if(inputArray=="" || inputArray==null || inputArray==="undefined"){
+					alert("The given input is not valid. Please try again");
+					return;
+				}
+				
+				var resAr = getSimpleAr(inputArray);
+				for(var xx=0;xx<resAr.length;xx++){	
+					if(xx==(resAr.length-1)){
+						document.getElementById("containerDiv").innerHTML+=resAr[xx];
+					}else{
+						document.getElementById("containerDiv").innerHTML+=resAr[xx]+", ";
+					}
+				}
+			};
+
+		</script>
+	</head>
+	<body>
+		<table width="500">
+			<tr>
+				<td width="60%">Please Enter input Array</td>
+				<td width="40%"><input type="text" id="inputVal" /><br/><p>Sample Format: [[1,2,[3]],4]</p></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="right"><input type="button" value="Simplify Array" onclick="flatInput()"></td>
+			</tr>
+		</table>
+		<div id="containerDiv" ></div>
+	</body>
+</html>
